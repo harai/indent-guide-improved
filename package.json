@@ -3,9 +3,6 @@
   "main": "./lib/indent-guide-improved",
   "version": "0.0.0",
   "description": "A short description of your package",
-  "activationCommands": {
-    "atom-workspace": "indent-guide-improved:toggle"
-  },
   "repository": "https://github.com/atom/indent-guide-improved",
   "license": "MIT",
   "engines": {
