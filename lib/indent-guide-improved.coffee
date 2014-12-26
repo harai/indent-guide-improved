@@ -5,13 +5,25 @@ module.exports = IndentGuideImproved =
 
   activate: (state) ->
     @subscriptions = new CompositeDisposable
-    editor = atom.workspace.getActiveEditor()
+    @editor = atom.workspace.getActiveEditor()
 
-    @subscriptions.add editor.onDidChangeCursorPosition(=> @updateIndentGuide())
+    @subscriptions.add @editor.onDidChangeCursorPosition(=> @updateIndentGuide())
 
   deactivate: ->
     @subscriptions.dispose()
 
   updateIndentGuide: ->
-    editor = atom.workspace.getActiveEditor()
+    if @editor?
+      # @createMarker([3, 10], @editor)
     console.debug("hoge")
+
+  createMarker: (range, editor) ->
+    console.debug("hoge 3")
+    markerAttributes =
+      class: 'hogehoge'
+      invalidate: 'never'
+      replicate: false
+      persistent: false
+      isCurrent: false
+    marker = editor.markBufferPosition(range, markerAttributes)
+    editor.decorateMarker(marker, type: 'highlight', class: 'hogehoge')
