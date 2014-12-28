@@ -17,9 +17,13 @@ class IndentGuideImprovedElement extends HTMLDivElement
       subscriptions.dispose()
 
   updateGuide: ->
-    column = @getGuideColumn(@editor.getPath(), @editor.getGrammar().scopeName)
+    column = 5
     columnWidth = @editorElement.getDefaultCharacterWidth() * column
+    topPos = 100
+    bottomPos = 200
     @style.left = "#{columnWidth}px"
+    @style.top = "#{topPos}px"
+    @style.bottom = "#{bottomPos}px"
     @style.display = 'block'
 
 module.exports = document.registerElement('indent-guide-improved',
