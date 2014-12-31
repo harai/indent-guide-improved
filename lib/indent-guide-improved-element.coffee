@@ -1,29 +1,16 @@
 {CompositeDisposable} = require 'atom'
 
 class IndentGuideImprovedElement extends HTMLDivElement
-  initialize: (@editor, @editorElement) ->
+  initialize: (@point, @length, @editor) ->
     @classList.add('indent-guide-improved')
-    @handleEvents()
     @updateGuide()
     this
 
-  handleEvents: ->
-    updateGuideCallback = => @updateGuide()
-
-    subscriptions = new CompositeDisposable
-    subscriptions.add @editor.onDidChangeCursorPosition(updateGuideCallback)
-
-    subscriptions.add @editor.onDidDestroy ->
-      subscriptions.dispose()
-
   updateGuide: ->
-    column = 5
-    columnWidth = @editorElement.getDefaultCharacterWidth() * column
-    topPos = 100
-    bottomPos = 200
-    @style.left = "#{columnWidth}px"
-    @style.top = "#{topPos}px"
-    @style.bottom = "#{bottomPos}px"
+    startPos = @editor.pixelPositionForBufferPosition(@point)
+    @style.left = "#{startPos.left}px"
+    @style.top = "#{startPos.top}px"
+    @style.height = "#{@editor.getLineHeightInPixels() * @length}px"
     @style.display = 'block'
 
 module.exports = document.registerElement('indent-guide-improved',
