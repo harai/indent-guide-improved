@@ -1,17 +1,39 @@
-{CompositeDisposable} = require 'atom'
+{CompositeDisposable, Point} = require 'atom'
 
-module.exports = IndentGuideImproved =
-  subscriptions: null
+IndentGuideImprovedElement = require './indent-guide-improved-element'
+{toGuides} = require './guides.coffee'
 
+module.exports =
   activate: (state) ->
-    @subscriptions = new CompositeDisposable
-    editor = atom.workspace.getActiveEditor()
+    updateGuide = (editor, editorElement) ->
+      underlayer = editorElement.querySelector(".underlayer")
+      if !underlayer?
+        return
+      cursorRows = editor.getCursorBufferPositions().map (point) ->
+        point.row
+      items = underlayer.querySelectorAll('.indent-guide-improved')
+      Array.prototype.forEach.call items, (node) ->
+        node.parentNode.removeChild(node)
+      visibleRange = editor.getVisibleRowRange()
+      indents = [visibleRange[0]..Math.min(visibleRange[1], editor.getLastBufferRow())].map (n) ->
+        editor.indentationForBufferRow(n)
+      toGuides(indents, cursorRows).map (g) ->
+        underlayer.appendChild(
+          new IndentGuideImprovedElement().initialize(
+            g.point.translate(new Point(visibleRange[0], 0)),
+            g.length,
+            g.stack,
+            g.active,
+            editor.getTabLength(),
+            editor))
 
-    @subscriptions.add editor.onDidChangeCursorPosition(=> @updateIndentGuide())
+    handleEvents = (editorElement, editor) ->
+      subscriptions = new CompositeDisposable
+      subscriptions.add editor.onDidChangeCursorPosition(=> updateGuide(editor, editorElement))
+      subscriptions.add editor.onDidDestroy ->
+        subscriptions.dispose()
 
-  deactivate: ->
-    @subscriptions.dispose()
-
-  updateIndentGuide: ->
-    editor = atom.workspace.getActiveEditor()
-    console.debug("hoge")
+    atom.workspace.observeTextEditors (editor) ->
+      editorElement = atom.views.getView(editor)
+      if editorElement.querySelector(".underlayer")?
+        handleEvents(editorElement, editor)
