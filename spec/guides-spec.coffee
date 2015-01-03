@@ -62,3 +62,55 @@ describe "toGuides", ->
       guides = toGuides([0, 0, 0])
 
     its -> expect(guides.length).toBe(0)
+
+  describe "same indent", ->
+    guides = null
+    beforeEach ->
+      guides = toGuides([1, 1, 1])
+
+    its -> expect(guides.length).toBe(1)
+    its -> expect(guides[0].length).toBe(3)
+    its -> expect(guides[0].point).toEqual(new Point(0, 0))
+
+  describe "stack and active", ->
+    describe "simple", ->
+      beforeEach ->
+        guides = toGuides([1, 2, 2, 1, 2, 1, 0], [2])
+
+      its -> expect(guides[0].stack).toBe(true)
+      its -> expect(guides[0].active).toBe(false)
+      its -> expect(guides[1].stack).toBe(true)
+      its -> expect(guides[1].active).toBe(true)
+      its -> expect(guides[2].stack).toBe(false)
+      its -> expect(guides[2].active).toBe(false)
+
+    describe "cursor not on deepest", ->
+      beforeEach ->
+        guides = toGuides([1, 2, 1], [0])
+
+      its -> expect(guides[0].stack).toBe(true)
+      its -> expect(guides[0].active).toBe(true)
+      its -> expect(guides[1].stack).toBe(false)
+      its -> expect(guides[1].active).toBe(false)
+
+    describe "no cursor", ->
+      beforeEach ->
+        guides = toGuides([1, 2, 1], [])
+
+      its -> expect(guides[0].stack).toBe(false)
+      its -> expect(guides[0].active).toBe(false)
+      its -> expect(guides[1].stack).toBe(false)
+      its -> expect(guides[1].active).toBe(false)
+
+    describe "multiple cursors", ->
+      beforeEach ->
+        guides = toGuides([1, 2, 1, 2, 0, 1], [1, 2])
+
+      its -> expect(guides[0].stack).toBe(true)
+      its -> expect(guides[0].active).toBe(true)
+      its -> expect(guides[1].stack).toBe(true)
+      its -> expect(guides[1].active).toBe(true)
+      its -> expect(guides[2].stack).toBe(false)
+      its -> expect(guides[2].active).toBe(false)
+      its -> expect(guides[3].stack).toBe(false)
+      its -> expect(guides[3].active).toBe(false)
