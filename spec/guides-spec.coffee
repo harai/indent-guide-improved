@@ -55,3 +55,10 @@ describe "toGuides", ->
     its -> expect(guides[0].point).toEqual(new Point(1, 0))
     its -> expect(guides[1].length).toBe(1)
     its -> expect(guides[1].point).toEqual(new Point(4, 0))
+
+  describe "no indent", ->
+    guides = null
+    beforeEach ->
+      guides = toGuides([0, 0, 0])
+
+    its -> expect(guides.length).toBe(0)
