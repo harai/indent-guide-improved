@@ -3,6 +3,17 @@ atom-text-editor {
     width: 1px;
     z-index: 100;
     position: absolute;
-    background-color: @syntax-wrap-guide-color;
+  }
+
+  .indent-guide-improved {
+    background-color: gray;
+  }
+
+  .indent-guide-improved.indent-guide-stack {
+    background-color: yellow;
+  }
+
+  .indent-guide-improved.indent-guide-stack.indent-guide-active {
+    background-color: white;
   }
 }

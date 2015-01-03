@@ -1,6 +1,7 @@
 {CompositeDisposable, Point} = require 'atom'
 
 IndentGuideImprovedElement = require './indent-guide-improved-element'
+{toGuides} = require './guides.coffee'
 
 module.exports =
   activate: (state) ->
@@ -8,16 +9,23 @@ module.exports =
       underlayer = editorElement.querySelector(".underlayer")
       if !underlayer?
         return
-      cursor = editor.getCursorBufferPosition()
+      cursorRows = editor.getCursorBufferPositions().map (point) ->
+        point.row
       items = underlayer.querySelectorAll('.indent-guide-improved')
       Array.prototype.forEach.call items, (node) ->
         node.parentNode.removeChild(node)
       visibleRange = editor.getVisibleRowRange()
       indents = [visibleRange[0]..Math.min(visibleRange[1], editor.getLastBufferRow())].map (n) ->
         editor.indentationForBufferRow(n)
-      console.debug indents
-      underlayer.appendChild(
-        new IndentGuideImprovedElement().initialize(cursor, 4, editor))
+      toGuides(indents, cursorRows).map (g) ->
+        underlayer.appendChild(
+          new IndentGuideImprovedElement().initialize(
+            g.point.translate(new Point(visibleRange[0], 0)),
+            g.length,
+            g.stack,
+            g.active,
+            editor.getTabLength(),
+            editor))
 
     handleEvents = (editorElement, editor) ->
       subscriptions = new CompositeDisposable
