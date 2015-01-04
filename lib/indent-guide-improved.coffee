@@ -27,13 +27,15 @@ module.exports =
             editor.getTabLength(),
             editor))
 
-    handleEvents = (editorElement, editor) ->
+    handleEvents = (editor, editorElement) ->
       subscriptions = new CompositeDisposable
       subscriptions.add editor.onDidChangeCursorPosition(=> updateGuide(editor, editorElement))
+      subscriptions.add editor.onDidChangeScrollTop(=> updateGuide(editor, editorElement))
+      subscriptions.add editor.onDidStopChanging(=> updateGuide(editor, editorElement))
       subscriptions.add editor.onDidDestroy ->
         subscriptions.dispose()
 
     atom.workspace.observeTextEditors (editor) ->
       editorElement = atom.views.getView(editor)
       if editorElement.querySelector(".underlayer")?
-        handleEvents(editorElement, editor)
+        handleEvents(editor, editorElement)
