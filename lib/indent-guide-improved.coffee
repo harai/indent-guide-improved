@@ -9,12 +9,12 @@ module.exports =
       underlayer = editorElement.querySelector(".underlayer")
       if !underlayer?
         return
+      visibleRange = editor.getVisibleRowRange()
       cursorRows = editor.getCursorBufferPositions().map (point) ->
-        point.row
+        point.row - visibleRange[0]
       items = underlayer.querySelectorAll('.indent-guide-improved')
       Array.prototype.forEach.call items, (node) ->
         node.parentNode.removeChild(node)
-      visibleRange = editor.getVisibleRowRange()
       indents = [visibleRange[0]..Math.min(visibleRange[1], editor.getLastBufferRow())].map (n) ->
         editor.indentationForBufferRow(n)
       toGuides(indents, cursorRows).map (g) ->
