@@ -2,7 +2,6 @@
 {Point} = require 'atom'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
-
 its = (f) ->
   it f.toString(), f
 
@@ -114,3 +113,40 @@ describe "toGuides", ->
       its -> expect(guides[2].active).toBe(false)
       its -> expect(guides[3].stack).toBe(false)
       its -> expect(guides[3].active).toBe(false)
+
+  describe "empty lines", ->
+    describe "between the same indents", ->
+      beforeEach ->
+        guides = toGuides([1, null, 1], [])
+
+      its -> expect(guides.length).toBe(1)
+      its -> expect(guides[0].length).toBe(3)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))
+
+    describe "large to small", ->
+      beforeEach ->
+        guides = toGuides([2, null, 1], [])
+
+      its -> expect(guides.length).toBe(2)
+      its -> expect(guides[0].length).toBe(3)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))
+      its -> expect(guides[1].length).toBe(1)
+      its -> expect(guides[1].point).toEqual(new Point(0, 1))
+
+    describe "small to large", ->
+      beforeEach ->
+        guides = toGuides([1, null, 2], [])
+
+      its -> expect(guides.length).toBe(2)
+      its -> expect(guides[0].length).toBe(3)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))
+      its -> expect(guides[1].length).toBe(2)
+      its -> expect(guides[1].point).toEqual(new Point(1, 1))
+
+    describe "continuous", ->
+      beforeEach ->
+        guides = toGuides([1, null, null, 1], [])
+
+      its -> expect(guides.length).toBe(1)
+      its -> expect(guides[0].length).toBe(4)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))

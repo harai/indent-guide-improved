@@ -16,7 +16,10 @@ module.exports =
       Array.prototype.forEach.call items, (node) ->
         node.parentNode.removeChild(node)
       indents = [visibleRange[0]..Math.min(visibleRange[1], editor.getLastBufferRow())].map (n) ->
-        editor.indentationForBufferRow(n)
+        if editor.lineTextForBufferRow(n).match(/^\s*$/)
+          null
+        else
+          editor.indentationForBufferRow(n)
       toGuides(indents, cursorRows).map (g) ->
         underlayer.appendChild(
           new IndentGuideImprovedElement().initialize(

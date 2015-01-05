@@ -26,8 +26,22 @@ toG = (indents, begin, depth, cursorRows) ->
   guides: gs
   ptr: ptr
 
+fillInNulls = (indents) ->
+  res = indents.reduceRight(
+    (acc, cur) ->
+      if cur is null
+        acc.r.unshift(acc.i)
+        {r: acc.r, i: acc.i}
+      else
+        acc.r.unshift(cur)
+        {r: acc.r, i: cur}
+    r: []
+    i: 0)
+  res.r
+
 toGuides = (indents, cursorRows = []) ->
-  toG(indents, 0, 0, cursorRows).guides.slice(1).map (g) ->
+  ind = fillInNulls(indents)
+  toG(ind, 0, 0, cursorRows).guides.slice(1).map (g) ->
     length: g.length
     point: g.point.translate(new Point(0, -1))
     active: g.active
