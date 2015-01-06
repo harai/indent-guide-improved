@@ -9,7 +9,8 @@ module.exports =
       underlayer = editorElement.querySelector(".underlayer")
       if !underlayer?
         return
-      visibleRange = editor.getVisibleRowRange()
+      visibleRange = editor.getVisibleRowRange().map (row) ->
+        editor.bufferPositionForScreenPosition(new Point(row, 0)).row
       cursorRows = editor.getCursorBufferPositions().map (point) ->
         point.row - visibleRange[0]
       items = underlayer.querySelectorAll('.indent-guide-improved')
