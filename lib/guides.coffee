@@ -31,10 +31,14 @@ fillInNulls = (indents) ->
     (acc, cur) ->
       if cur is null
         acc.r.unshift(acc.i)
-        {r: acc.r, i: acc.i}
+
+        r: acc.r
+        i: acc.i
       else
         acc.r.unshift(cur)
-        {r: acc.r, i: cur}
+
+        r: acc.r
+        i: cur
     r: []
     i: 0)
   res.r
