@@ -9,8 +9,19 @@ class IndentGuideImprovedElement extends HTMLDivElement
     this
 
   updateGuide: ->
-    startPos = @editor.pixelPositionForBufferPosition(
-      new Point(@point.row, @point.column * @indentSize))
+    return if @editor.isFoldedAtBufferRow(Math.max(@point.row - 1, 0))
+    startPos = if @point.row is 0
+      p = new Point(@point.row, @point.column * @indentSize)
+      @editor.pixelPositionForBufferPosition(p)
+    else
+      p = new Point(@point.row, 0)
+      p = @editor.screenPositionForBufferPosition(p)
+      left = @point.column * @indentSize * @editor.getDefaultCharWidth()
+      top = @editor.pixelPositionForScreenPosition(new Point(p.row, 0)).top
+
+      left: left
+      top: top
+
     @style.left = "#{startPos.left}px"
     @style.top = "#{startPos.top}px"
     @style.height = "#{@editor.getLineHeightInPixels() * @realLength()}px"

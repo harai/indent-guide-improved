@@ -21,7 +21,7 @@ module.exports =
           null
         else
           editor.indentationForBufferRow(n)
-      toGuides(indents, cursorRows).map (g) ->
+      toGuides(indents, cursorRows).forEach (g) ->
         underlayer.appendChild(
           new IndentGuideImprovedElement().initialize(
             g.point.translate(new Point(visibleRange[0], 0)),
