@@ -1,3 +1,7 @@
+@import "syntax-variables";
+
+@opposite: contrast(@syntax-background-color);
+
 atom-text-editor {
   .indent-guide-improved {
     width: 1px;
@@ -6,14 +10,14 @@ atom-text-editor {
   }
 
   .indent-guide-improved {
-    background-color: gray;
+    background-color: @syntax-indent-guide-color;
   }
 
   .indent-guide-improved.indent-guide-stack {
-    background-color: yellow;
+    background-color: mix(@syntax-indent-guide-color, @opposite, 60%);
   }
 
   .indent-guide-improved.indent-guide-stack.indent-guide-active {
-    background-color: white;
+    background-color: mix(@syntax-indent-guide-color, @opposite, 10%);
   }
 }
