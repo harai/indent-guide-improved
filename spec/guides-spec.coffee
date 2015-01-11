@@ -150,3 +150,12 @@ describe "toGuides", ->
       its -> expect(guides.length).toBe(1)
       its -> expect(guides[0].length).toBe(4)
       its -> expect(guides[0].point).toEqual(new Point(0, 0))
+
+  describe "incomplete indent", ->
+    guides = null
+    beforeEach ->
+      guides = toGuides([1, 1.5, 1])
+
+    its -> expect(guides.length).toBe(1)
+    its -> expect(guides[0].length).toBe(3)
+    its -> expect(guides[0].point).toEqual(new Point(0, 0))

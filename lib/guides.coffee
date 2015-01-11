@@ -40,7 +40,11 @@ fillInNulls = (indents) ->
   res.r
 
 toGuides = (indents, cursorRows = []) ->
-  ind = fillInNulls(indents)
+  ind = fillInNulls(indents.map (i) ->
+    if i is null
+      null
+    else
+      Math.floor(i))
   toG(ind, 0, 0, cursorRows).guides.slice(1).map (g) ->
     length: g.length
     point: g.point.translate(new Point(0, -1))
