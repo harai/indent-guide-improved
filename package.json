@@ -1,8 +1,9 @@
 {
   "name": "indent-guide-improved",
+  "author": "Akihiro HARAI",
   "main": "./lib/indent-guide-improved",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "This draws indent guide more correctly and understandably.",
   "repository": "https://github.com/atom/indent-guide-improved",
   "license": "MIT",
   "engines": {
