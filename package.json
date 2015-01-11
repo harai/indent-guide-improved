@@ -4,7 +4,7 @@
   "main": "./lib/indent-guide-improved",
   "version": "0.0.0",
   "description": "This draws indent guide more correctly and understandably.",
-  "repository": "https://github.com/atom/indent-guide-improved",
+  "repository": "https://github.com/harai/indent-guide-improved",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
