@@ -123,6 +123,38 @@ describe "toGuides", ->
       its -> expect(guides[0].length).toBe(3)
       its -> expect(guides[0].point).toEqual(new Point(0, 0))
 
+    describe "starts with a null", ->
+      beforeEach ->
+        guides = toGuides([null, 1], [])
+
+      its -> expect(guides.length).toBe(1)
+      its -> expect(guides[0].length).toBe(2)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))
+
+    describe "starts with nulls", ->
+      beforeEach ->
+        guides = toGuides([null, null, 1], [])
+
+      its -> expect(guides.length).toBe(1)
+      its -> expect(guides[0].length).toBe(3)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))
+
+    describe "ends with a null", ->
+      beforeEach ->
+        guides = toGuides([1, null], [])
+
+      its -> expect(guides.length).toBe(1)
+      its -> expect(guides[0].length).toBe(1)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))
+
+    describe "ends with nulls", ->
+      beforeEach ->
+        guides = toGuides([1, null, null], [])
+
+      its -> expect(guides.length).toBe(1)
+      its -> expect(guides[0].length).toBe(1)
+      its -> expect(guides[0].point).toEqual(new Point(0, 0))
+
     describe "large to small", ->
       beforeEach ->
         guides = toGuides([2, null, 1], [])
