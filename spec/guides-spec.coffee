@@ -1,5 +1,5 @@
 gs = require '../lib/guides'
-{toGuides, uniq, statesAboveVisible, statesBelowVisible} = gs
+{toGuides, uniq, statesAboveVisible, statesBelowVisible, getGuides} = gs
 {Point} = require 'atom'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
@@ -426,3 +426,53 @@ describe "statesBelowVisible", ->
 
     its -> expect(guides.stack).toEqual([0, 1])
     its -> expect(guides.active).toEqual([1])
+
+describe "getGuides", ->
+  run = getGuides
+  guides = null
+  rowIndents = null
+  getRowIndents = (r) ->
+    rowIndents[r]
+  getLastRow = () ->
+    rowIndents.length - 1
+
+  describe "typical", ->
+    beforeEach ->
+      rowIndents = [
+        0, 1, 2,
+        2, 3, 0, 1, 2, 0, 1,
+        1, 0
+      ]
+      guides = run(3, 9, getLastRow(), [2, 6, 10], getRowIndents)
+
+    its -> expect(guides.length).toBe(6)
+
+    its -> expect(guides[0].length).toBe(2)
+    its -> expect(guides[0].point).toEqual(new Point(0, 0))
+    its -> expect(guides[0].active).toBe(false)
+    its -> expect(guides[0].stack).toBe(true)
+
+    its -> expect(guides[1].length).toBe(2)
+    its -> expect(guides[1].point).toEqual(new Point(0, 1))
+    its -> expect(guides[1].active).toBe(true)
+    its -> expect(guides[1].stack).toBe(true)
+
+    its -> expect(guides[2].length).toBe(1)
+    its -> expect(guides[2].point).toEqual(new Point(1, 2))
+    its -> expect(guides[2].active).toBe(false)
+    its -> expect(guides[2].stack).toBe(false)
+
+    its -> expect(guides[3].length).toBe(2)
+    its -> expect(guides[3].point).toEqual(new Point(3, 0))
+    its -> expect(guides[3].active).toBe(true)
+    its -> expect(guides[3].stack).toBe(true)
+
+    its -> expect(guides[4].length).toBe(1)
+    its -> expect(guides[4].point).toEqual(new Point(4, 1))
+    its -> expect(guides[4].active).toBe(false)
+    its -> expect(guides[4].stack).toBe(false)
+
+    its -> expect(guides[5].length).toBe(1)
+    its -> expect(guides[5].point).toEqual(new Point(6, 0))
+    its -> expect(guides[5].active).toBe(true)
+    its -> expect(guides[5].stack).toBe(true)
