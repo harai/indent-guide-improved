@@ -85,17 +85,20 @@ getGuides = (visibleFrom, visibleTo, lastRow, cursorRows, getIndentFn) ->
   below = statesBelowVisible(cursorRows, visibleLast + 1, getIndentFn, lastRow)
   mergeCropped(guides, above, below, visibleLast - visibleFrom)
 
-statesAboveVisible = (cursorRows, start, getIndentFn, lastRow) ->
-  if start < 0
+statesInvisible = (cursorRows, start, getIndentFn, lastRow, isAbove) ->
+  if (if isAbove then start < 0 else lastRow < start)
     return {
       stack: []
       active: []
     }
-  cursors = uniq(cursorRows.filter((r) -> r <= start).sort(), true).reverse()
+  cursors = if isAbove
+    uniq(cursorRows.filter((r) -> r <= start).sort(), true).reverse()
+  else
+    uniq(cursorRows.filter((r) -> start <= r).sort(), true)
   active = []
   stack = []
   minIndent = Number.MAX_VALUE
-  for i in [start..0]
+  for i in (if isAbove then [start..0] else [start..lastRow])
     ind = getIndentFn(i)
     minIndent = Math.min(minIndent, ind) if ind?
     break if cursors.length is 0 or minIndent is 0
@@ -108,28 +111,11 @@ statesAboveVisible = (cursorRows, start, getIndentFn, lastRow) ->
   stack: uniq(stack.sort())
   active: uniq(active.sort())
 
+statesAboveVisible = (cursorRows, start, getIndentFn, lastRow) ->
+  statesInvisible(cursorRows, start, getIndentFn, lastRow, true)
+
 statesBelowVisible = (cursorRows, start, getIndentFn, lastRow) ->
-  if lastRow < start
-    return {
-      stack: []
-      active: []
-    }
-  cursors = uniq(cursorRows.filter((r) -> start <= r).sort(), true)
-  active = []
-  stack = []
-  minIndent = Number.MAX_VALUE
-  for i in [start..lastRow]
-    ind = getIndentFn(i)
-    minIndent = Math.min(minIndent, ind) if ind?
-    break if cursors.length is 0 or minIndent is 0
-    if cursors[0] is i
-      cursors.shift()
-      vind = getVirtualIndent(getIndentFn, i, lastRow)
-      minIndent = Math.min(minIndent, vind)
-      active.push(vind - 1) if vind is minIndent
-      stack = [0..minIndent - 1] if stack.length is 0
-  stack: uniq(stack.sort())
-  active: uniq(active.sort())
+  statesInvisible(cursorRows, start, getIndentFn, lastRow, false)
 
 module.exports =
   toGuides: toGuides
