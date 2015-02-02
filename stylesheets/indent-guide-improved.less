@@ -1,7 +1,5 @@
 @import "syntax-variables";
 
-@opposite: contrast(@syntax-background-color);
-
 atom-text-editor {
   .indent-guide-improved {
     width: 1px;
@@ -9,15 +7,23 @@ atom-text-editor {
     position: absolute;
   }
 
-  .indent-guide-improved {
-    background-color: @syntax-indent-guide-color;
-  }
-
-  .indent-guide-improved.indent-guide-stack {
-    background-color: mix(@syntax-indent-guide-color, @opposite, 60%);
-  }
-
   .indent-guide-improved.indent-guide-stack.indent-guide-active {
-    background-color: mix(@syntax-indent-guide-color, @opposite, 10%);
+    width: 2px;
+  }
+
+  .color-guides(20);
+
+  .color-guides(@total, @i:1) when (@i <= @total) {
+    .indent-guide-improved:nth-child(@{total}n + @{i}) {
+
+      @indent-col: rgb(mod(@i * 20 + 50, 150), mod(@i * 2 + 50, 150), mod(@i * 100 + 50, 150));
+      background-color: @indent-col;
+
+      &.indent-guide-stack.indent-guide-active {
+        background-color: lighten(saturate(@indent-col, 50%), 20%);
+      }
+    }
+
+    .color-guides(@total, (@i + 1));
   }
 }
