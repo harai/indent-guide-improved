@@ -24,3 +24,5 @@ describe "RowMap", ->
       its -> expect(rowMap.firstScreenRowForBufferRow(6)).toBe(6)
       its -> expect(rowMap.firstScreenRowForBufferRow(7)).toBe(7)
       its -> expect(rowMap.firstScreenRowForBufferRow(8)).toBe(8)
+      its -> expect(rowMap.firstScreenRowForBufferRow(9)).toBe(8)
+      its -> expect(rowMap.firstScreenRowForBufferRow(10)).toBe(8)

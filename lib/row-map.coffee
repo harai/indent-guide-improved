@@ -24,7 +24,7 @@ class RowMap
         scrAcc += reg.screenRows
         continue
       throw "illegal state"
-    throw 'illegal argument' if bufAcc < row
+    # bufAcc < row is permitted
     scrAcc
 
 module.exports = RowMap
