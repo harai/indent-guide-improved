@@ -2,22 +2,20 @@
 
 @opposite: contrast(@syntax-background-color);
 
-atom-text-editor {
-  .indent-guide-improved {
-    width: 1px;
-    z-index: 100;
-    position: absolute;
-  }
+.indent-guide-improved {
+  width: 1px;
+  z-index: 100;
+  position: absolute;
+}
 
-  .indent-guide-improved {
-    background-color: @syntax-indent-guide-color;
-  }
+.indent-guide-improved {
+  background-color: @syntax-indent-guide-color;
+}
 
-  .indent-guide-improved.indent-guide-stack {
-    background-color: mix(@syntax-indent-guide-color, @opposite, 60%);
-  }
+.indent-guide-improved.indent-guide-stack {
+  background-color: mix(@syntax-indent-guide-color, @opposite, 60%);
+}
 
-  .indent-guide-improved.indent-guide-stack.indent-guide-active {
-    background-color: mix(@syntax-indent-guide-color, @opposite, 10%);
-  }
+.indent-guide-improved.indent-guide-stack.indent-guide-active {
+  background-color: mix(@syntax-indent-guide-color, @opposite, 10%);
 }
