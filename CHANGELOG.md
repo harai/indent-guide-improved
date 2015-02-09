@@ -1,3 +1,9 @@
+## 1.1.1
+### Bugfix
+
+* Supported Shadow DOM
+* Fixed "illegal argument" errors while typing
+
 ## 1.1.0
 ### Bugfix
 
