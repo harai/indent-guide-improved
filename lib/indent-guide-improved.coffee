@@ -12,7 +12,7 @@ module.exports =
         return
 
       visibleScreenRange = editor.getVisibleRowRange()
-      basePixelPos = editor.pixelPositionForScreenPosition(new Point(visibleScreenRange[0], 0)).top
+      basePixelPos = editorElement.pixelPositionForScreenPosition(new Point(visibleScreenRange[0], 0)).top
       visibleRange = visibleScreenRange.map (row) ->
         editor.bufferPositionForScreenPosition(new Point(row, 0)).row
       getIndent = (row) ->
