@@ -9,7 +9,6 @@ This Atom Editor package draws indent guide more correctly and understandably.
 
 ![screenshot](https://raw.githubusercontent.com/harai/indent-guide-improved/master/doc/demo.gif)
 
-# Setup
+# Notice
 
-1. Install this package.
-1. Switch off "Show Indent Guide" of [Edit]-[Preferences]-[Settings].
+* Original "Show Indent Guide" feature is automatically switched off when this package is activated.

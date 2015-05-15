@@ -6,6 +6,9 @@ RowMap = require './row-map.coffee'
 
 module.exports =
   activate: (state) ->
+    # The original indent guides interfere with this package.
+    atom.config.set('editor.showIndentGuide', false);
+
     updateGuide = (editor, editorElement) ->
       underlayer = editorElement.querySelector(".underlayer")
       if !underlayer?
