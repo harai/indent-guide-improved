@@ -1,4 +1,9 @@
 ## 1.2.0
+### Bugfix
+
+* Fixed a bug #12
+
+## 1.2.0
 ### Improvement
 
 * Original "Show Indent Guide" feature is automatically switched off when this package is activated.
