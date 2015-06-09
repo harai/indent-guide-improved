@@ -10,10 +10,6 @@ module.exports =
     atom.config.set('editor.showIndentGuide', false);
 
     updateGuide = (editor, editorElement) ->
-      underlayer = editorElement.querySelector(".underlayer")
-      if !underlayer?
-        return
-
       visibleScreenRange = editor.getVisibleRowRange()
       basePixelPos = editorElement.pixelPositionForScreenPosition(new Point(visibleScreenRange[0], 0)).top
       visibleRange = visibleScreenRange.map (row) ->
@@ -23,6 +19,7 @@ module.exports =
           null
         else
           editor.indentationForBufferRow(row)
+      scrollTop = editor.getScrollTop()
       rowMap = new RowMap(editor.displayBuffer.rowMap.getRegions())
       guides = getGuides(
         visibleRange[0],
@@ -31,7 +28,7 @@ module.exports =
         editor.getCursorBufferPositions().map((point) -> point.row),
         getIndent)
       lineHeightPixel = editor.getLineHeightInPixels()
-      createElementsForGuides(underlayer, guides.map (g) ->
+      createElementsForGuides(editorElement, guides.map (g) ->
         (el) -> styleGuide(
           el,
           g.point.translate(new Point(visibleRange[0], 0)),
@@ -42,7 +39,8 @@ module.exports =
           rowMap,
           basePixelPos,
           lineHeightPixel,
-          visibleScreenRange[0]))
+          visibleScreenRange[0],
+          scrollTop))
 
     handleEvents = (editor, editorElement) ->
       subscriptions = new CompositeDisposable
@@ -54,5 +52,4 @@ module.exports =
 
     atom.workspace.observeTextEditors (editor) ->
       editorElement = atom.views.getView(editor)
-      if editorElement.querySelector(".underlayer")?
-        handleEvents(editor, editorElement)
+      handleEvents(editor, editorElement)
