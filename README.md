@@ -9,7 +9,7 @@ This Atom Editor package draws indent guide more correctly and understandably.
 
 ![screenshot](https://raw.githubusercontent.com/harai/indent-guide-improved/master/doc/demo.gif)
 
-# Configuring
+# Configuration
 
 You can change the color of guides by adding styles to [your stylesheet](https://atom.io/docs/latest/customizing-atom), such as the following:
 
@@ -28,3 +28,4 @@ You can change the color of guides by adding styles to [your stylesheet](https:/
 # Notice
 
 * Original "Show Indent Guide" feature is automatically switched off when this package is activated.
+* Please check "Use Shadow DOM" in Settings.
