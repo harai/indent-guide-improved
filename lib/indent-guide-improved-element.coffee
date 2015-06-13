@@ -1,6 +1,6 @@
 {Point} = require 'atom'
 
-styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPos, lineHeightPixel, baseScreenRow, scrollTop) ->
+styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPos, lineHeightPixel, baseScreenRow, scrollTop, scrollLeft) ->
   element.classList.add('indent-guide-improved')
   element.classList[if stack then 'add' else 'remove']('indent-guide-stack')
   element.classList[if active then 'add' else 'remove']('indent-guide-active')
@@ -8,7 +8,7 @@ styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPo
   return if editor.isFoldedAtBufferRow(Math.max(point.row - 1, 0))
   row = rowMap.firstScreenRowForBufferRow(point.row)
   indentSize = editor.getTabLength()
-  left = point.column * indentSize * editor.getDefaultCharWidth()
+  left = point.column * indentSize * editor.getDefaultCharWidth() - scrollLeft
   top = basePixelPos + lineHeightPixel * (row - baseScreenRow) - scrollTop
 
   element.style.left = "#{left}px"

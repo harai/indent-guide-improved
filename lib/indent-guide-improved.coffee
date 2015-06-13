@@ -1,4 +1,4 @@
-{CompositeDisposable, Point, notifications} = require 'atom'
+{CompositeDisposable, Point} = require 'atom'
 
 {createElementsForGuides, styleGuide} = require './indent-guide-improved-element'
 {getGuides} = require './guides.coffee'
@@ -25,6 +25,7 @@ module.exports =
         else
           editor.indentationForBufferRow(row)
       scrollTop = editor.getScrollTop()
+      scrollLeft = editor.getScrollLeft()
       rowMap = new RowMap(editor.displayBuffer.rowMap.getRegions())
       guides = getGuides(
         visibleRange[0],
@@ -45,12 +46,14 @@ module.exports =
           basePixelPos,
           lineHeightPixel,
           visibleScreenRange[0],
-          scrollTop))
+          scrollTop,
+          scrollLeft))
 
     handleEvents = (editor, editorElement) ->
       subscriptions = new CompositeDisposable
       subscriptions.add editor.onDidChangeCursorPosition(=> updateGuide(editor, editorElement))
       subscriptions.add editor.onDidChangeScrollTop(=> updateGuide(editor, editorElement))
+      subscriptions.add editor.onDidChangeScrollLeft(=> updateGuide(editor, editorElement))
       subscriptions.add editor.onDidStopChanging(=> updateGuide(editor, editorElement))
       subscriptions.add editor.onDidDestroy ->
         subscriptions.dispose()
