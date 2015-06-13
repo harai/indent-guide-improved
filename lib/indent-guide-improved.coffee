@@ -1,4 +1,4 @@
-{CompositeDisposable, Point} = require 'atom'
+{CompositeDisposable, Point, notifications} = require 'atom'
 
 {createElementsForGuides, styleGuide} = require './indent-guide-improved-element'
 {getGuides} = require './guides.coffee'
@@ -7,7 +7,12 @@ RowMap = require './row-map.coffee'
 module.exports =
   activate: (state) ->
     # The original indent guides interfere with this package.
-    atom.config.set('editor.showIndentGuide', false);
+    atom.config.set('editor.showIndentGuide', false)
+
+    unless atom.config.get('editor.useShadowDOM')
+      msg = 'To use indent-guide-improved package, please check "Use Shadow DOM" in Settings.'
+      atom.notifications.addError(msg, {dismissable: true})
+      return
 
     updateGuide = (editor, editorElement) ->
       visibleScreenRange = editor.getVisibleRowRange()

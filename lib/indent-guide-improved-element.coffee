@@ -39,7 +39,7 @@ createElementsForGuides = (editorElement, fns) ->
       node.parentNode.removeChild(node)
   [0...createNum].forEach (i) ->
     newNode = new IndentGuideImprovedElement()
-    newNode.classList.add('underlayer')
+    newNode.classList.add('overlayer')
     fns[count++](newNode)
     editorElement.appendChild(newNode)
   throw 'System Error' unless count is neededNum
