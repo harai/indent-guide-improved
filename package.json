@@ -14,5 +14,7 @@
     "ruler",
     "ui"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "lodash": "^3.9.3"
+  }
 }
