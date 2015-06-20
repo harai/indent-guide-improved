@@ -1,3 +1,8 @@
+## 1.4.0
+### Improvement
+
+* Smoother scrolling
+
 ## 1.3.0
 ### Improvement
 
