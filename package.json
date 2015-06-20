@@ -2,7 +2,7 @@
   "name": "indent-guide-improved",
   "author": "Akihiro HARAI",
   "main": "./lib/indent-guide-improved",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "This draws indent guide more correctly and understandably.",
   "repository": "https://github.com/harai/indent-guide-improved",
   "license": "MIT",
