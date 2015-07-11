@@ -58,14 +58,13 @@ module.exports =
         updateGuide(editor, editorElement)
 
       update = _.throttle(up , 30)
-      # update = up
 
       subscriptions = new CompositeDisposable
       subscriptions.add editor.onDidChangeCursorPosition(update)
       subscriptions.add editor.onDidChangeScrollTop(update)
       subscriptions.add editor.onDidChangeScrollLeft(update)
       subscriptions.add editor.onDidStopChanging(update)
-      subscriptions.add editor.onDidDestroy ->
+      subscriptions.add editor.onDidDestroy =>
         @currentSubscriptions.splice(@currentSubscriptions.indexOf(subscriptions), 1)
         subscriptions.dispose()
       @currentSubscriptions.push(subscriptions)
