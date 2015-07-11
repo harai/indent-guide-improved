@@ -70,17 +70,30 @@ mergeCropped = (guides, above, below, height) ->
         g.active = true
       if g.point.column in above.stack
         g.stack = true
-    if g.point.row + g.length - 1 is height
+    if height < g.point.row + g.length
       if g.point.column in below.active
         g.active = true
       if g.point.column in below.stack
         g.stack = true
   guides
 
+supportingIndents = (visibleLast, lastRow, getIndentFn) ->
+  return [] if getIndentFn(visibleLast)?
+  indents = []
+  count = visibleLast + 1
+  while count <= lastRow
+    indent = getIndentFn(count)
+    indents.push(indent)
+    break if indent?
+    count++
+  indents
+
 getGuides = (visibleFrom, visibleTo, lastRow, cursorRows, getIndentFn) ->
   visibleLast = Math.min(visibleTo, lastRow)
   visibleIndents = [visibleFrom..visibleLast].map getIndentFn
-  guides = toGuides(visibleIndents, cursorRows.map((c) -> c - visibleFrom))
+  support = supportingIndents(visibleLast, lastRow, getIndentFn)
+  guides = toGuides(
+    visibleIndents.concat(support), cursorRows.map((c) -> c - visibleFrom))
   above = statesAboveVisible(cursorRows, visibleFrom - 1, getIndentFn, lastRow)
   below = statesBelowVisible(cursorRows, visibleLast + 1, getIndentFn, lastRow)
   mergeCropped(guides, above, below, visibleLast - visibleFrom)

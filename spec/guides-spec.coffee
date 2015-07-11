@@ -6,6 +6,9 @@ gs = require '../lib/guides'
 its = (f) ->
   it f.toString(), f
 
+fits = (f) ->
+  fit f.toString(), f
+
 describe "toGuides", ->
   guides = null
   describe "step-by-step indent", ->
@@ -476,3 +479,68 @@ describe "getGuides", ->
     its -> expect(guides[5].point).toEqual(new Point(6, 0))
     its -> expect(guides[5].active).toBe(true)
     its -> expect(guides[5].stack).toBe(true)
+
+  describe "when last line is null", ->
+    beforeEach ->
+      rowIndents = [
+        0, 1, 2,
+        2, 2, null,
+        2, 0
+      ]
+      guides = run(3, 5, getLastRow(), [6], getRowIndents)
+
+    its -> expect(guides.length).toBe(2)
+
+    # `length` includes off-screen indents, which are extended by
+    # counting null lines.
+    its -> expect(guides[0].length).toBe(4)
+    its -> expect(guides[0].point).toEqual(new Point(0, 0))
+    its -> expect(guides[0].active).toBe(false)
+    its -> expect(guides[0].stack).toBe(true)
+
+    its -> expect(guides[1].length).toBe(4)
+    its -> expect(guides[1].point).toEqual(new Point(0, 1))
+    its -> expect(guides[1].active).toBe(true)
+    its -> expect(guides[1].stack).toBe(true)
+
+  describe "when last line is null and the following line is also null", ->
+    beforeEach ->
+      rowIndents = [
+        0, 1, 2,
+        2, 2, null,
+        null, 2, 0
+      ]
+      guides = run(3, 5, getLastRow(), [7], getRowIndents)
+
+    its -> expect(guides.length).toBe(2)
+
+    its -> expect(guides[0].length).toBe(5)
+    its -> expect(guides[0].point).toEqual(new Point(0, 0))
+    its -> expect(guides[0].active).toBe(false)
+    its -> expect(guides[0].stack).toBe(true)
+
+    its -> expect(guides[1].length).toBe(5)
+    its -> expect(guides[1].point).toEqual(new Point(0, 1))
+    its -> expect(guides[1].active).toBe(true)
+    its -> expect(guides[1].stack).toBe(true)
+
+  describe "when last line is null and the cursor doesnt follow", ->
+    beforeEach ->
+      rowIndents = [
+        0, 1, 2,
+        2, 2, null,
+        null, 2, 1, 0
+      ]
+      guides = run(3, 5, getLastRow(), [8], getRowIndents)
+
+    its -> expect(guides.length).toBe(2)
+
+    its -> expect(guides[0].length).toBe(5)
+    its -> expect(guides[0].point).toEqual(new Point(0, 0))
+    its -> expect(guides[0].active).toBe(true)
+    its -> expect(guides[0].stack).toBe(true)
+
+    its -> expect(guides[1].length).toBe(5)
+    its -> expect(guides[1].point).toEqual(new Point(0, 1))
+    its -> expect(guides[1].active).toBe(false)
+    its -> expect(guides[1].stack).toBe(false)
