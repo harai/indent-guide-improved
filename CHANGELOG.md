@@ -1,3 +1,9 @@
+## 1.4.1
+### Bugfix
+
+* Fix broken guides which happen when the last line of the screen is blank.
+* Fix deactivation procedure. #16
+
 ## 1.4.0
 ### Improvement
 
