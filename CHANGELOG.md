@@ -1,3 +1,8 @@
+## 1.4.2
+### Bugfix
+
+* Fix guides which ignore code folding #15
+
 ## 1.4.1
 ### Bugfix
 
