@@ -1,3 +1,8 @@
+## 1.4.3
+### Bugfix
+
+* Cursor is swallowed by guide #19
+
 ## 1.4.2
 ### Bugfix
 

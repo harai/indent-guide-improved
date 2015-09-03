@@ -19,6 +19,7 @@ styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPo
   element.style.height =
     "#{editor.getLineHeightInPixels() * realLength(point.row, length, rowMap)}px"
   element.style.display = 'block'
+  element.style['z-index'] = 0
 
 realLength = (row, length, rowMap) ->
   row1 = rowMap.firstScreenRowForBufferRow(row)
