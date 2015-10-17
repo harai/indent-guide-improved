@@ -1,21 +1,15 @@
 @import "syntax-variables";
 
-@opposite: contrast(@syntax-background-color);
-
 .indent-guide-improved {
   width: 1px;
   z-index: 100;
   position: absolute;
 }
 
-.indent-guide-improved {
-  background-color: @syntax-indent-guide-color;
-}
-
 .indent-guide-improved.indent-guide-stack {
-  background-color: mix(@syntax-indent-guide-color, @opposite, 60%);
+  background-color: lighten(@syntax-background-color, 5%);
 }
 
 .indent-guide-improved.indent-guide-stack.indent-guide-active {
-  background-color: mix(@syntax-indent-guide-color, @opposite, 10%);
+  background-color: lighten(@syntax-background-color, 15%);
 }

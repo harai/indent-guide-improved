@@ -11,7 +11,8 @@ styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPo
 
   row = rowMap.firstScreenRowForBufferRow(point.row)
   indentSize = editor.getTabLength()
-  left = point.column * indentSize * editor.getDefaultCharWidth() - scrollLeft
+  buffer = editor.getDefaultCharWidth() * 0.5
+  left = (point.column + 1) * indentSize * editor.getDefaultCharWidth() - scrollLeft - buffer
   top = basePixelPos + lineHeightPixel * (row - baseScreenRow) - scrollTop
 
   element.style.left = "#{left}px"
