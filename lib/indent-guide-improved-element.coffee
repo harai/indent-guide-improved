@@ -5,7 +5,7 @@ styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPo
   element.classList[if stack then 'add' else 'remove']('indent-guide-stack')
   element.classList[if active then 'add' else 'remove']('indent-guide-active')
 
-  if editor.isFoldedAtBufferRow(Math.max(point.row - 1, 0))
+  if length <= 1 || editor.isFoldedAtBufferRow(Math.max(point.row - 1, 0))
     element.style.height = '0px'
     return
 
