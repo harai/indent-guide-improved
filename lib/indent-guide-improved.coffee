@@ -70,7 +70,9 @@ module.exports =
       @currentSubscriptions.push(subscriptions)
 
     atom.workspace.observeTextEditors (editor) ->
+      return unless editor?
       editorElement = atom.views.getView(editor)
+      return unless editorElement?
       handleEvents(editor, editorElement)
 
   deactivate: () ->
