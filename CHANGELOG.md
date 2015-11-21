@@ -1,3 +1,8 @@
+## 1.4.4
+### Bugfix
+
+* Fixed bugs #26 #28
+
 ## 1.4.3
 ### Bugfix
 
