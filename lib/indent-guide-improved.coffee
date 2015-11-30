@@ -6,6 +6,11 @@ _ = require 'lodash'
 RowMap = require './row-map.coffee'
 
 module.exports =
+  config:
+    maxIndentLevel:
+      type: 'integer',
+      default: 10
+
   activate: (state) ->
     @currentSubscriptions = []
 
@@ -27,7 +32,10 @@ module.exports =
         if editor.lineTextForBufferRow(row).match(/^\s*$/)
           null
         else
-          editor.indentationForBufferRow(row)
+          if (level = editor.indentationForBufferRow(row)) <= atom.config.get('indent-guide-improved.maxIndentLevel')
+            level
+          else
+            null
       scrollTop = editor.getScrollTop()
       scrollLeft = editor.getScrollLeft()
       rowMap = new RowMap(editor.displayBuffer.rowMap.getRegions())
