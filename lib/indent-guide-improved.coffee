@@ -18,7 +18,7 @@ module.exports =
       return
 
     updateGuide = (editor, editorElement) ->
-      visibleScreenRange = editor.getVisibleRowRange()
+      visibleScreenRange = editorElement.getVisibleRowRange()
       return unless visibleScreenRange? and editorElement.component?
       basePixelPos = editorElement.pixelPositionForScreenPosition(new Point(visibleScreenRange[0], 0)).top
       visibleRange = visibleScreenRange.map (row) ->
@@ -28,8 +28,8 @@ module.exports =
           null
         else
           editor.indentationForBufferRow(row)
-      scrollTop = editor.getScrollTop()
-      scrollLeft = editor.getScrollLeft()
+      scrollTop = editorElement.getScrollTop()
+      scrollLeft = editorElement.getScrollLeft()
       rowMap = new RowMap(editor.displayBuffer.rowMap.getRegions())
       guides = getGuides(
         visibleRange[0],
@@ -62,8 +62,8 @@ module.exports =
 
       subscriptions = new CompositeDisposable
       subscriptions.add editor.onDidChangeCursorPosition(update)
-      subscriptions.add editor.onDidChangeScrollTop(update)
-      subscriptions.add editor.onDidChangeScrollLeft(update)
+      subscriptions.add editorElement.onDidChangeScrollTop(update)
+      subscriptions.add editorElement.onDidChangeScrollLeft(update)
       subscriptions.add editor.onDidStopChanging(update)
       subscriptions.add editor.onDidDestroy =>
         @currentSubscriptions.splice(@currentSubscriptions.indexOf(subscriptions), 1)
