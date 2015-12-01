@@ -28,8 +28,8 @@ module.exports =
           null
         else
           editor.indentationForBufferRow(row)
-      scrollTop = editor.getScrollTop()
-      scrollLeft = editor.getScrollLeft()
+      scrollTop = editorElement.getScrollTop()
+      scrollLeft = editorElement.getScrollLeft()
       rowMap = new RowMap(editor.displayBuffer.rowMap.getRegions())
       guides = getGuides(
         visibleRange[0],
