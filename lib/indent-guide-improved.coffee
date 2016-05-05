@@ -58,9 +58,18 @@ module.exports =
       up = () ->
         updateGuide(editor, editorElement)
 
+      delayedUpdate = ->
+        setTimeout(up, 0)
+
       update = _.throttle(up , 30)
 
       subscriptions = new CompositeDisposable
+      subscriptions.add atom.workspace.onDidStopChangingActivePaneItem((item) ->
+        delayedUpdate() if item == editor
+      )
+      subscriptions.add atom.config.onDidChange('editor.fontSize', delayedUpdate)
+      subscriptions.add atom.config.onDidChange('editor.fontFamily', delayedUpdate)
+      subscriptions.add atom.config.onDidChange('editor.lineHeight', delayedUpdate)
       subscriptions.add editor.onDidChangeCursorPosition(update)
       subscriptions.add editorElement.onDidChangeScrollTop(update)
       subscriptions.add editorElement.onDidChangeScrollLeft(update)
@@ -75,6 +84,7 @@ module.exports =
       editorElement = atom.views.getView(editor)
       return unless editorElement?
       handleEvents(editor, editorElement)
+      updateGuide(editor, editorElement)
 
   deactivate: () ->
     @currentSubscriptions.forEach (s) ->
