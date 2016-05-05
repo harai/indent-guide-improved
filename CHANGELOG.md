@@ -1,3 +1,11 @@
+## 1.4.8
+
+* Fixed version inconsistency
+
+## 1.4.7
+
+* Failed release
+
 ## 1.4.6
 ### Bugfix
 
