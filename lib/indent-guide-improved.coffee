@@ -3,7 +3,6 @@ _ = require 'lodash'
 
 {createElementsForGuides, styleGuide} = require './indent-guide-improved-element'
 {getGuides} = require './guides.coffee'
-RowMap = require './row-map.coffee'
 
 module.exports =
   activate: (state) ->
@@ -30,7 +29,6 @@ module.exports =
           editor.indentationForBufferRow(row)
       scrollTop = editorElement.getScrollTop()
       scrollLeft = editorElement.getScrollLeft()
-      rowMap = new RowMap(editor.displayBuffer.rowMap.getRegions())
       guides = getGuides(
         visibleRange[0],
         visibleRange[1],
@@ -46,7 +44,6 @@ module.exports =
           g.stack,
           g.active,
           editor,
-          rowMap,
           basePixelPos,
           lineHeightPixel,
           visibleScreenRange[0],
