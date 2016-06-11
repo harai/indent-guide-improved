@@ -1,6 +1,6 @@
 {Point} = require 'atom'
 
-styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPos, lineHeightPixel, baseScreenRow, scrollTop, scrollLeft) ->
+styleGuide = (element, point, length, stack, active, editor, basePixelPos, lineHeightPixel, baseScreenRow, scrollTop, scrollLeft) ->
   element.classList.add('indent-guide-improved')
   element.classList[if stack then 'add' else 'remove']('indent-guide-stack')
   element.classList[if active then 'add' else 'remove']('indent-guide-active')
@@ -9,7 +9,7 @@ styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPo
     element.style.height = '0px'
     return
 
-  row = rowMap.firstScreenRowForBufferRow(point.row)
+  row = editor.screenRowForBufferRow(point.row)
   indentSize = editor.getTabLength()
   left = point.column * indentSize * editor.getDefaultCharWidth() - scrollLeft
   top = basePixelPos + lineHeightPixel * (row - baseScreenRow) - scrollTop
@@ -17,13 +17,13 @@ styleGuide = (element, point, length, stack, active, editor, rowMap, basePixelPo
   element.style.left = "#{left}px"
   element.style.top = "#{top}px"
   element.style.height =
-    "#{editor.getLineHeightInPixels() * realLength(point.row, length, rowMap)}px"
+    "#{editor.getLineHeightInPixels() * realLength(point.row, length, editor)}px"
   element.style.display = 'block'
   element.style['z-index'] = 0
 
-realLength = (row, length, rowMap) ->
-  row1 = rowMap.firstScreenRowForBufferRow(row)
-  row2 = rowMap.firstScreenRowForBufferRow(row + length)
+realLength = (row, length, editor) ->
+  row1 = editor.screenRowForBufferRow(row)
+  row2 = editor.screenRowForBufferRow(row + length)
   row2 - row1
 
 IndentGuideImprovedElement = document.registerElement('indent-guide-improved')
