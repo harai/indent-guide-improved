@@ -1,3 +1,8 @@
+## 1.4.9
+### Bugfix
+
+* Support Atom v1.9 #42 (@ra100)
+
 ## 1.4.8
 
 * Fixed version inconsistency
