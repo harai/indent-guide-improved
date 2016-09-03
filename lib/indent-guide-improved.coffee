@@ -11,7 +11,7 @@ module.exports =
     # The original indent guides interfere with this package.
     atom.config.set('editor.showIndentGuide', false)
 
-    unless atom.config.get('editor.useShadowDOM')
+    if atom.config.get('editor.useShadowDOM') is false
       msg = 'To use indent-guide-improved package, please check "Use Shadow DOM" in Settings.'
       atom.notifications.addError(msg, {dismissable: true})
       return
