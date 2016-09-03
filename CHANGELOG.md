@@ -1,3 +1,7 @@
+## 1.4.10
+
+* Support Atom v1.11 #47 (@Zirro)
+
 ## 1.4.9
 ### Bugfix
 
