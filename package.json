@@ -7,7 +7,7 @@
   "repository": "https://github.com/harai/indent-guide-improved",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.8.0"
+    "atom": ">=1.11.0"
   },
   "keywords": [
     "indentation",
