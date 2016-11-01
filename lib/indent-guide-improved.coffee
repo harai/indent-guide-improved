@@ -11,11 +11,6 @@ module.exports =
     # The original indent guides interfere with this package.
     atom.config.set('editor.showIndentGuide', false)
 
-    if atom.config.get('editor.useShadowDOM') is false
-      msg = 'To use indent-guide-improved package, please check "Use Shadow DOM" in Settings.'
-      atom.notifications.addError(msg, {dismissable: true})
-      return
-
     updateGuide = (editor, editorElement) ->
       visibleScreenRange = editorElement.getVisibleRowRange()
       return unless visibleScreenRange? and editorElement.component?
