@@ -66,6 +66,7 @@ module.exports =
       subscriptions.add editorElement.onDidChangeScrollTop(update)
       subscriptions.add editorElement.onDidChangeScrollLeft(update)
       subscriptions.add editor.onDidStopChanging(update)
+      subscriptions.add editor.onDidChange(update)
       subscriptions.add editor.onDidDestroy =>
         @currentSubscriptions.splice(@currentSubscriptions.indexOf(subscriptions), 1)
         subscriptions.dispose()
