@@ -1,3 +1,7 @@
+## 1.4.12
+
+* Support Atom v1.13 #51
+
 ## 1.4.11
 
 * Remove ShadowDOM check #50 (@davidwaynesimmons)

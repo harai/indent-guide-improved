@@ -19,7 +19,7 @@ styleGuide = (element, point, length, stack, active, editor, basePixelPos, lineH
   element.style.height =
     "#{editor.getLineHeightInPixels() * realLength(point.row, length, editor)}px"
   element.style.display = 'block'
-  element.style['z-index'] = 0
+  element.style['z-index'] = 1
 
 realLength = (row, length, editor) ->
   row1 = editor.screenRowForBufferRow(row)
@@ -29,7 +29,8 @@ realLength = (row, length, editor) ->
 IndentGuideImprovedElement = document.registerElement('indent-guide-improved')
 
 createElementsForGuides = (editorElement, fns) ->
-  items = editorElement.querySelectorAll('.indent-guide-improved')
+  itemParent = editorElement.querySelector('.scroll-view')
+  items = itemParent.querySelectorAll('.indent-guide-improved')
   existNum = items.length
   neededNum = fns.length
   createNum = Math.max(neededNum - existNum, 0)
@@ -45,7 +46,7 @@ createElementsForGuides = (editorElement, fns) ->
     newNode = new IndentGuideImprovedElement()
     newNode.classList.add('overlayer')
     fns[count++](newNode)
-    editorElement.appendChild(newNode)
+    itemParent.appendChild(newNode)
   throw 'System Error' unless count is neededNum
 
 module.exports =
