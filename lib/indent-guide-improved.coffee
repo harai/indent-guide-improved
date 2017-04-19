@@ -1,5 +1,4 @@
 {CompositeDisposable, Point} = require 'atom'
-_ = require 'lodash'
 
 {createElementsForGuides, styleGuide} = require './indent-guide-improved-element'
 {getGuides} = require './guides.coffee'
