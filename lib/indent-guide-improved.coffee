@@ -51,9 +51,7 @@ module.exports =
         updateGuide(editor, editorElement)
 
       delayedUpdate = ->
-        setTimeout(up, 0)
-
-      update = _.throttle(up , 30)
+        requestAnimationFrame(up)
 
       subscriptions = new CompositeDisposable
       subscriptions.add atom.workspace.onDidStopChangingActivePaneItem((item) ->
@@ -62,10 +60,10 @@ module.exports =
       subscriptions.add atom.config.onDidChange('editor.fontSize', delayedUpdate)
       subscriptions.add atom.config.onDidChange('editor.fontFamily', delayedUpdate)
       subscriptions.add atom.config.onDidChange('editor.lineHeight', delayedUpdate)
-      subscriptions.add editor.onDidChangeCursorPosition(update)
-      subscriptions.add editorElement.onDidChangeScrollTop(update)
-      subscriptions.add editorElement.onDidChangeScrollLeft(update)
-      subscriptions.add editor.onDidStopChanging(update)
+      subscriptions.add editor.onDidChangeCursorPosition(delayedUpdate)
+      subscriptions.add editorElement.onDidChangeScrollTop(delayedUpdate)
+      subscriptions.add editorElement.onDidChangeScrollLeft(delayedUpdate)
+      subscriptions.add editor.onDidStopChanging(delayedUpdate)
       subscriptions.add editor.onDidDestroy =>
         @currentSubscriptions.splice(@currentSubscriptions.indexOf(subscriptions), 1)
         subscriptions.dispose()
