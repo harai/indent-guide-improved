@@ -6,6 +6,7 @@
 module.exports =
   activate: (state) ->
     @currentSubscriptions = []
+    @busy = false
 
     # The original indent guides interfere with this package.
     atom.config.set('editor.showIndentGuide', false)
@@ -46,11 +47,14 @@ module.exports =
 
 
     handleEvents = (editor, editorElement) =>
-      up = () ->
+      up = () =>
         updateGuide(editor, editorElement)
+        @busy = false
 
-      delayedUpdate = ->
-        requestAnimationFrame(up)
+      delayedUpdate = =>
+        unless @busy
+          @busy = true
+          requestAnimationFrame(up)
 
       subscriptions = new CompositeDisposable
       subscriptions.add atom.workspace.onDidStopChangingActivePaneItem((item) ->
