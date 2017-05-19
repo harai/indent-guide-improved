@@ -13,7 +13,7 @@ module.exports =
     
     createPoint = (x, y) ->
     	x = if isNaN(x) then 0 else x
-    	x = if isNaN(y) then 0 else y
+    	y = if isNaN(y) then 0 else y
     	new Point(x, y)
 
     updateGuide = (editor, editorElement) ->
