@@ -13,7 +13,7 @@ module.exports =
 
     updateGuide = (editor, editorElement) ->
       visibleScreenRange = editorElement.getVisibleRowRange()
-      return unless visibleScreenRange? and editorElement.component?
+      return unless visibleScreenRange? and editorElement.component.visible
       basePixelPos = editorElement.pixelPositionForScreenPosition(new Point(visibleScreenRange[0], 0)).top
       visibleRange = visibleScreenRange.map (row) ->
         editor.bufferPositionForScreenPosition(new Point(row, 0)).row
