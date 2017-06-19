@@ -11,12 +11,18 @@ module.exports =
     # The original indent guides interfere with this package.
     atom.config.set('editor.showIndentGuide', false)
 
+    createPoint = (x, y) ->
+    	x = if isNaN(x) then 0 else x
+    	y = if isNaN(y) then 0 else y
+    	new Point(x, y)
+
     updateGuide = (editor, editorElement) ->
       visibleScreenRange = editorElement.getVisibleRowRange()
       return unless visibleScreenRange? and editorElement.component.visible
-      basePixelPos = editorElement.pixelPositionForScreenPosition(new Point(visibleScreenRange[0], 0)).top
+      basePixelPos = editorElement.pixelPositionForScreenPosition(
+        createPoint(visibleScreenRange[0], 0)).top
       visibleRange = visibleScreenRange.map (row) ->
-        editor.bufferPositionForScreenPosition(new Point(row, 0)).row
+        editor.bufferPositionForScreenPosition(createPoint(row, 0)).row
       getIndent = (row) ->
         if editor.lineTextForBufferRow(row).match(/^\s*$/)
           null
@@ -34,7 +40,7 @@ module.exports =
       createElementsForGuides(editorElement, guides.map (g) ->
         (el) -> styleGuide(
           el,
-          g.point.translate(new Point(visibleRange[0], 0)),
+          g.point.translate(createPoint(visibleRange[0], 0)),
           g.length,
           g.stack,
           g.active,
