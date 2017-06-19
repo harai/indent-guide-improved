@@ -1,3 +1,9 @@
+## 1.4.13
+
+* Rendering improvement #59 (@phyllisstein)
+* Support Atom v1.19 (#62 @markovicdenis) (#65 @ra100)
+    * Known issue exists #57
+
 ## 1.4.12
 
 * Support Atom v1.13 #51
