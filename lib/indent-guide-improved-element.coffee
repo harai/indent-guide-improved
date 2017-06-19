@@ -5,13 +5,14 @@ styleGuide = (element, point, length, stack, active, editor, basePixelPos, lineH
   element.classList[if stack then 'add' else 'remove']('indent-guide-stack')
   element.classList[if active then 'add' else 'remove']('indent-guide-active')
 
-  if editor.isFoldedAtBufferRow(Math.max(point.row - 1, 0))
+  if length <= 1 || editor.isFoldedAtBufferRow(Math.max(point.row - 1, 0))
     element.style.height = '0px'
     return
 
   row = editor.screenRowForBufferRow(point.row)
   indentSize = editor.getTabLength()
-  left = point.column * indentSize * editor.getDefaultCharWidth() - scrollLeft
+  buffer = editor.getDefaultCharWidth() * 0.5
+  left = (point.column + 1) * indentSize * editor.getDefaultCharWidth() - scrollLeft - buffer
   top = basePixelPos + lineHeightPixel * (row - baseScreenRow) - scrollTop
 
   element.style.left = "#{left}px"
