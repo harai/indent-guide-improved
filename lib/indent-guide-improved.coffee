@@ -1,5 +1,4 @@
 {CompositeDisposable, Point} = require 'atom'
-_ = require 'lodash'
 
 {createElementsForGuides, styleGuide} = require './indent-guide-improved-element'
 {getGuides} = require './guides.coffee'
@@ -7,6 +6,7 @@ _ = require 'lodash'
 module.exports =
   activate: (state) ->
     @currentSubscriptions = []
+    @busy = false
 
     # The original indent guides interfere with this package.
     atom.config.set('editor.showIndentGuide', false)
@@ -53,13 +53,14 @@ module.exports =
 
 
     handleEvents = (editor, editorElement) =>
-      up = () ->
+      up = () =>
         updateGuide(editor, editorElement)
+        @busy = false
 
-      delayedUpdate = ->
-        setTimeout(up, 0)
-
-      update = _.throttle(up , 30)
+      delayedUpdate = =>
+        unless @busy
+          @busy = true
+          requestAnimationFrame(up)
 
       subscriptions = new CompositeDisposable
       subscriptions.add atom.workspace.onDidStopChangingActivePaneItem((item) ->
@@ -68,10 +69,10 @@ module.exports =
       subscriptions.add atom.config.onDidChange('editor.fontSize', delayedUpdate)
       subscriptions.add atom.config.onDidChange('editor.fontFamily', delayedUpdate)
       subscriptions.add atom.config.onDidChange('editor.lineHeight', delayedUpdate)
-      subscriptions.add editor.onDidChangeCursorPosition(update)
-      subscriptions.add editorElement.onDidChangeScrollTop(update)
-      subscriptions.add editorElement.onDidChangeScrollLeft(update)
-      subscriptions.add editor.onDidStopChanging(update)
+      subscriptions.add editor.onDidChangeCursorPosition(delayedUpdate)
+      subscriptions.add editorElement.onDidChangeScrollTop(delayedUpdate)
+      subscriptions.add editorElement.onDidChangeScrollLeft(delayedUpdate)
+      subscriptions.add editor.onDidStopChanging(delayedUpdate)
       subscriptions.add editor.onDidDestroy =>
         @currentSubscriptions.splice(@currentSubscriptions.indexOf(subscriptions), 1)
         subscriptions.dispose()
