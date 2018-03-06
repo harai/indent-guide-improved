@@ -28,8 +28,6 @@ module.exports =
           null
         else
           editor.indentationForBufferRow(row)
-      scrollTop = editorElement.getScrollTop()
-      scrollLeft = editorElement.getScrollLeft()
       guides = getGuides(
         visibleRange[0],
         visibleRange[1],
@@ -47,9 +45,7 @@ module.exports =
           editor,
           basePixelPos,
           lineHeightPixel,
-          visibleScreenRange[0],
-          scrollTop,
-          scrollLeft))
+          visibleScreenRange[0]))
 
 
     handleEvents = (editor, editorElement) =>

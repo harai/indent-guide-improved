@@ -1,6 +1,6 @@
 {Point} = require 'atom'
 
-styleGuide = (element, point, length, stack, active, editor, basePixelPos, lineHeightPixel, baseScreenRow, scrollTop, scrollLeft) ->
+styleGuide = (element, point, length, stack, active, editor, basePixelPos, lineHeightPixel, baseScreenRow) ->
   element.classList.add('indent-guide-improved')
   element.classList[if stack then 'add' else 'remove']('indent-guide-stack')
   element.classList[if active then 'add' else 'remove']('indent-guide-active')
@@ -11,8 +11,8 @@ styleGuide = (element, point, length, stack, active, editor, basePixelPos, lineH
 
   row = editor.screenRowForBufferRow(point.row)
   indentSize = editor.getTabLength()
-  left = point.column * indentSize * editor.getDefaultCharWidth() - scrollLeft
-  top = basePixelPos + lineHeightPixel * (row - baseScreenRow) - scrollTop
+  left = point.column * indentSize * editor.getDefaultCharWidth()
+  top = basePixelPos + lineHeightPixel * (row - baseScreenRow)
 
   element.style.left = "#{left}px"
   element.style.top = "#{top}px"
@@ -29,7 +29,8 @@ realLength = (row, length, editor) ->
 IndentGuideImprovedElement = document.registerElement('indent-guide-improved')
 
 createElementsForGuides = (editorElement, fns) ->
-  itemParent = editorElement.querySelector('.scroll-view')
+  cursors = editorElement.querySelector('.scroll-view .cursors')
+  itemParent = cursors.parentNode
   items = itemParent.querySelectorAll('.indent-guide-improved')
   existNum = items.length
   neededNum = fns.length
@@ -46,7 +47,7 @@ createElementsForGuides = (editorElement, fns) ->
     newNode = new IndentGuideImprovedElement()
     newNode.classList.add('overlayer')
     fns[count++](newNode)
-    itemParent.appendChild(newNode)
+    itemParent.insertBefore(newNode, cursors)
   throw 'System Error' unless count is neededNum
 
 module.exports =
